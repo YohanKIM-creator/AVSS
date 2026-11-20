@@ -2,8 +2,8 @@ import torch
 
 from src.metrics.base_metric import BaseMetric
 
-
-class ExampleMetric(BaseMetric):
+# SDRi Metric
+class SDRiMetric(BaseMetric):
     def __init__(self, metric, device, *args, **kwargs):
         """
         Example of a nested metric class. Applies metric function
@@ -33,3 +33,19 @@ class ExampleMetric(BaseMetric):
         """
         classes = logits.argmax(dim=-1)
         return self.metric(classes, labels)
+
+# PESQ Metric
+class PESQ(BaseMetric):
+    def __init__(self):
+        pass
+
+    def __call__(self, **batch):
+        return super().__call__(**batch)
+
+# STOI Metric
+class STOI(BaseMetric):
+    def __init__(self, name=None, *args, **kwargs):
+        super().__init__(name, *args, **kwargs)
+
+    def __call__(self, **batch):
+        return super().__call__(**batch)

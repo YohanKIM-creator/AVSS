@@ -1,0 +1,785 @@
+{
+  "archive": "C:\\Users\\Игорь\\OneDrive\\Desktop\\dla_dataset.zip",
+  "archive_bytes": 10182013754,
+  "file_count": 97434,
+  "groups": {
+    "dla_dataset/audio/test/mix": 3000,
+    "dla_dataset/audio/train/mix": 20000,
+    "dla_dataset/audio/train/s1": 20000,
+    "dla_dataset/audio/train/s2": 20000,
+    "dla_dataset/audio/val/mix": 5000,
+    "dla_dataset/audio/val/s1": 5000,
+    "dla_dataset/audio/val/s2": 5000,
+    "dla_dataset/mouths": 19434
+  },
+  "wav_byte_sizes": {
+    "64044": 78000
+  },
+  "sampled_mixtures": 32,
+  "sampled_metadata": {
+    "split": "train",
+    "file": "00868227196_00650125782.wav",
+    "sample_rate": 16000,
+    "channels": 1,
+    "sample_width_bytes": 2,
+    "frames": 32000,
+    "duration_seconds": 2.0,
+    "mix_minus_sum_rms": 1.5206246511836814e-05,
+    "mix_to_sum_residual_db": 79.81100724836197,
+    "fitted_coefficients": [
+      1.0000007397264927,
+      0.9999987500257883
+    ],
+    "mix_to_fitted_residual_db": 79.81143769672437,
+    "source_rms_ratio_db": 0.4618970839417496,
+    "mix_si_snr_to_s1_db": 0.43104717218043476,
+    "mix_si_snr_to_s2_db": -0.49620591442538103,
+    "mix_clip_fraction": 0.0
+  },
+  "sampled_statistics": {
+    "mix_to_sum_residual_db": {
+      "min": 77.00753,
+      "median": 79.76193,
+      "max": 82.72496
+    },
+    "mix_to_fitted_residual_db": {
+      "min": 77.00764,
+      "median": 79.76208,
+      "max": 82.72496
+    },
+    "source_rms_ratio_db": {
+      "min": -0.87344,
+      "median": 4.18613,
+      "max": 11.51987
+    },
+    "mix_si_snr_to_s1_db": {
+      "min": -0.82508,
+      "median": 4.31845,
+      "max": 11.50137
+    },
+    "mix_si_snr_to_s2_db": {
+      "min": -11.79112,
+      "median": -4.09102,
+      "max": 0.913
+    },
+    "mix_clip_fraction": {
+      "min": 0.0,
+      "median": 0.0,
+      "max": 0.0
+    }
+  },
+  "video_examples": [
+    {
+      "file": "dla_dataset/mouths/00491363174.npz",
+      "arrays": {
+        "data": {
+          "shape": [
+            50,
+            96,
+            96
+          ],
+          "dtype": "uint8"
+        }
+      }
+    },
+    {
+      "file": "dla_dataset/mouths/00693926811.npz",
+      "arrays": {
+        "data": {
+          "shape": [
+            50,
+            96,
+            96
+          ],
+          "dtype": "uint8"
+        }
+      }
+    }
+  ],
+  "audio_preview_files": [
+    {
+      "split": "train",
+      "kind": "mix",
+      "source": "00868227196_00650125782.wav",
+      "path": "C:\\Users\\Игорь\\OneDrive\\Desktop\\dla_dataset_preview\\train\\mix.wav",
+      "bytes": 64044
+    },
+    {
+      "split": "train",
+      "kind": "s1",
+      "source": "00868227196_00650125782.wav",
+      "path": "C:\\Users\\Игорь\\OneDrive\\Desktop\\dla_dataset_preview\\train\\s1.wav",
+      "bytes": 64044
+    },
+    {
+      "split": "train",
+      "kind": "s2",
+      "source": "00868227196_00650125782.wav",
+      "path": "C:\\Users\\Игорь\\OneDrive\\Desktop\\dla_dataset_preview\\train\\s2.wav",
+      "bytes": 64044
+    },
+    {
+      "split": "val",
+      "kind": "mix",
+      "source": "00629560144_00329305687.wav",
+      "path": "C:\\Users\\Игорь\\OneDrive\\Desktop\\dla_dataset_preview\\val\\mix.wav",
+      "bytes": 64044
+    },
+    {
+      "split": "val",
+      "kind": "s1",
+      "source": "00629560144_00329305687.wav",
+      "path": "C:\\Users\\Игорь\\OneDrive\\Desktop\\dla_dataset_preview\\val\\s1.wav",
+      "bytes": 64044
+    },
+    {
+      "split": "val",
+      "kind": "s2",
+      "source": "00629560144_00329305687.wav",
+      "path": "C:\\Users\\Игорь\\OneDrive\\Desktop\\dla_dataset_preview\\val\\s2.wav",
+      "bytes": 64044
+    }
+  ],
+  "sample_results": [
+    {
+      "split": "train",
+      "file": "00868227196_00650125782.wav",
+      "sample_rate": 16000,
+      "channels": 1,
+      "sample_width_bytes": 2,
+      "frames": 32000,
+      "duration_seconds": 2.0,
+      "mix_minus_sum_rms": 1.5206246511836814e-05,
+      "mix_to_sum_residual_db": 79.81100724836197,
+      "fitted_coefficients": [
+        1.0000007397264927,
+        0.9999987500257883
+      ],
+      "mix_to_fitted_residual_db": 79.81143769672437,
+      "source_rms_ratio_db": 0.4618970839417496,
+      "mix_si_snr_to_s1_db": 0.43104717218043476,
+      "mix_si_snr_to_s2_db": -0.49620591442538103,
+      "mix_clip_fraction": 0.0
+    },
+    {
+      "split": "train",
+      "file": "00547365426_00152874189.wav",
+      "sample_rate": 16000,
+      "channels": 1,
+      "sample_width_bytes": 2,
+      "frames": 32000,
+      "duration_seconds": 2.0,
+      "mix_minus_sum_rms": 1.5225373873500905e-05,
+      "mix_to_sum_residual_db": 79.47442932106854,
+      "fitted_coefficients": [
+        1.000000947494527,
+        0.9999994975296921
+      ],
+      "mix_to_fitted_residual_db": 79.47468186364577,
+      "source_rms_ratio_db": 2.076155017150408,
+      "mix_si_snr_to_s1_db": 2.04206251725692,
+      "mix_si_snr_to_s2_db": -2.131306475500147,
+      "mix_clip_fraction": 0.0
+    },
+    {
+      "split": "train",
+      "file": "00087182366_00175175307.wav",
+      "sample_rate": 16000,
+      "channels": 1,
+      "sample_width_bytes": 2,
+      "frames": 32000,
+      "duration_seconds": 2.0,
+      "mix_minus_sum_rms": 1.533868851669644e-05,
+      "mix_to_sum_residual_db": 77.007534902059,
+      "fitted_coefficients": [
+        0.9999993723850675,
+        1.0000009203527924
+      ],
+      "mix_to_fitted_residual_db": 77.00763661299894,
+      "source_rms_ratio_db": 8.530145010606448,
+      "mix_si_snr_to_s1_db": 8.45257804576116,
+      "mix_si_snr_to_s2_db": -9.1158471736614,
+      "mix_clip_fraction": 0.0
+    },
+    {
+      "split": "train",
+      "file": "00027194943_00159735227.wav",
+      "sample_rate": 16000,
+      "channels": 1,
+      "sample_width_bytes": 2,
+      "frames": 32000,
+      "duration_seconds": 2.0,
+      "mix_minus_sum_rms": 1.5113135393572245e-05,
+      "mix_to_sum_residual_db": 80.04019838297839,
+      "fitted_coefficients": [
+        1.0000001122195286,
+        1.000001518689827
+      ],
+      "mix_to_fitted_residual_db": 80.04034644813913,
+      "source_rms_ratio_db": 7.788012044062381,
+      "mix_si_snr_to_s1_db": 7.8519918158820445,
+      "mix_si_snr_to_s2_db": -7.416938145146574,
+      "mix_clip_fraction": 0.0
+    },
+    {
+      "split": "train",
+      "file": "00805774029_00032459783.wav",
+      "sample_rate": 16000,
+      "channels": 1,
+      "sample_width_bytes": 2,
+      "frames": 32000,
+      "duration_seconds": 2.0,
+      "mix_minus_sum_rms": 1.531495248607768e-05,
+      "mix_to_sum_residual_db": 79.74072890306297,
+      "fitted_coefficients": [
+        1.0000005353086026,
+        1.0000017758024788
+      ],
+      "mix_to_fitted_residual_db": 79.74107500085918,
+      "source_rms_ratio_db": 6.140446894926349,
+      "mix_si_snr_to_s1_db": 6.065479590873515,
+      "mix_si_snr_to_s2_db": -6.457363063053187,
+      "mix_clip_fraction": 0.0
+    },
+    {
+      "split": "train",
+      "file": "00233799225_00871981790.wav",
+      "sample_rate": 16000,
+      "channels": 1,
+      "sample_width_bytes": 2,
+      "frames": 32000,
+      "duration_seconds": 2.0,
+      "mix_minus_sum_rms": 1.5148719521838974e-05,
+      "mix_to_sum_residual_db": 77.3807655629758,
+      "fitted_coefficients": [
+        1.0000001231984186,
+        1.000001228393482
+      ],
+      "mix_to_fitted_residual_db": 77.38095442285982,
+      "source_rms_ratio_db": -0.46677798007201554,
+      "mix_si_snr_to_s1_db": -0.36213552276505084,
+      "mix_si_snr_to_s2_db": 0.560885194004989,
+      "mix_clip_fraction": 0.0
+    },
+    {
+      "split": "train",
+      "file": "00584852673_00376356946.wav",
+      "sample_rate": 16000,
+      "channels": 1,
+      "sample_width_bytes": 2,
+      "frames": 32000,
+      "duration_seconds": 2.0,
+      "mix_minus_sum_rms": 1.4283481770972485e-05,
+      "mix_to_sum_residual_db": 79.77567660584592,
+      "fitted_coefficients": [
+        1.0000001373581726,
+        0.9999985100937703
+      ],
+      "mix_to_fitted_residual_db": 79.77590422361486,
+      "source_rms_ratio_db": 4.883459659977233,
+      "mix_si_snr_to_s1_db": 4.934212491463255,
+      "mix_si_snr_to_s2_db": -4.729135817677673,
+      "mix_clip_fraction": 0.0
+    },
+    {
+      "split": "train",
+      "file": "00079626716_00961166239.wav",
+      "sample_rate": 16000,
+      "channels": 1,
+      "sample_width_bytes": 2,
+      "frames": 32000,
+      "duration_seconds": 2.0,
+      "mix_minus_sum_rms": 1.5397395977909796e-05,
+      "mix_to_sum_residual_db": 81.33678307740828,
+      "fitted_coefficients": [
+        0.9999997045261418,
+        0.9999990488631372
+      ],
+      "mix_to_fitted_residual_db": 81.33700408623497,
+      "source_rms_ratio_db": 2.6513044360952405,
+      "mix_si_snr_to_s1_db": 2.7175997324806316,
+      "mix_si_snr_to_s2_db": -2.5299924439050647,
+      "mix_clip_fraction": 0.0
+    },
+    {
+      "split": "train",
+      "file": "00206234236_00219036917.wav",
+      "sample_rate": 16000,
+      "channels": 1,
+      "sample_width_bytes": 2,
+      "frames": 32000,
+      "duration_seconds": 2.0,
+      "mix_minus_sum_rms": 1.534722450107334e-05,
+      "mix_to_sum_residual_db": 80.5034840001455,
+      "fitted_coefficients": [
+        0.999999677229837,
+        0.9999989136226304
+      ],
+      "mix_to_fitted_residual_db": 80.5036824550595,
+      "source_rms_ratio_db": 4.030313725058539,
+      "mix_si_snr_to_s1_db": 4.2634811418744585,
+      "mix_si_snr_to_s2_db": -3.4631151542985785,
+      "mix_clip_fraction": 0.0
+    },
+    {
+      "split": "train",
+      "file": "00080782996_00819915827.wav",
+      "sample_rate": 16000,
+      "channels": 1,
+      "sample_width_bytes": 2,
+      "frames": 32000,
+      "duration_seconds": 2.0,
+      "mix_minus_sum_rms": 1.5339637193972092e-05,
+      "mix_to_sum_residual_db": 81.36657276423821,
+      "fitted_coefficients": [
+        1.0000002428753978,
+        1.0000005485240715
+      ],
+      "mix_to_fitted_residual_db": 81.36662577283077,
+      "source_rms_ratio_db": 8.501730560808157,
+      "mix_si_snr_to_s1_db": 8.52301681214178,
+      "mix_si_snr_to_s2_db": -8.353149209648633,
+      "mix_clip_fraction": 0.0
+    },
+    {
+      "split": "train",
+      "file": "00708932593_00982664392.wav",
+      "sample_rate": 16000,
+      "channels": 1,
+      "sample_width_bytes": 2,
+      "frames": 32000,
+      "duration_seconds": 2.0,
+      "mix_minus_sum_rms": 1.5287372520075894e-05,
+      "mix_to_sum_residual_db": 77.88520013080715,
+      "fitted_coefficients": [
+        0.9999992566755724,
+        0.9999971289043889
+      ],
+      "mix_to_fitted_residual_db": 77.88548154396517,
+      "source_rms_ratio_db": 11.519866330164913,
+      "mix_si_snr_to_s1_db": 11.501368940089055,
+      "mix_si_snr_to_s2_db": -11.79111786512384,
+      "mix_clip_fraction": 0.0
+    },
+    {
+      "split": "train",
+      "file": "00304602904_00701542448.wav",
+      "sample_rate": 16000,
+      "channels": 1,
+      "sample_width_bytes": 2,
+      "frames": 32000,
+      "duration_seconds": 2.0,
+      "mix_minus_sum_rms": 1.5217725813807728e-05,
+      "mix_to_sum_residual_db": 77.22024322470317,
+      "fitted_coefficients": [
+        0.9999993912188365,
+        1.000001949550917
+      ],
+      "mix_to_fitted_residual_db": 77.22077373281348,
+      "source_rms_ratio_db": -0.30975866078649417,
+      "mix_si_snr_to_s1_db": -0.7391597331462109,
+      "mix_si_snr_to_s2_db": -0.10544645361808977,
+      "mix_clip_fraction": 0.0
+    },
+    {
+      "split": "train",
+      "file": "00697884451_00068067434.wav",
+      "sample_rate": 16000,
+      "channels": 1,
+      "sample_width_bytes": 2,
+      "frames": 32000,
+      "duration_seconds": 2.0,
+      "mix_minus_sum_rms": 1.534722450107334e-05,
+      "mix_to_sum_residual_db": 79.87982155399561,
+      "fitted_coefficients": [
+        0.9999993913155337,
+        0.9999999491679301
+      ],
+      "mix_to_fitted_residual_db": 79.87989819690353,
+      "source_rms_ratio_db": -0.12053312958860052,
+      "mix_si_snr_to_s1_db": 0.0293464585599832,
+      "mix_si_snr_to_s2_db": 0.26637426068152664,
+      "mix_clip_fraction": 0.0
+    },
+    {
+      "split": "train",
+      "file": "00395106346_00400522343.wav",
+      "sample_rate": 16000,
+      "channels": 1,
+      "sample_width_bytes": 2,
+      "frames": 32000,
+      "duration_seconds": 2.0,
+      "mix_minus_sum_rms": 1.5334893220704482e-05,
+      "mix_to_sum_residual_db": 80.86885554062346,
+      "fitted_coefficients": [
+        0.9999997009402984,
+        1.0000012993500877
+      ],
+      "mix_to_fitted_residual_db": 80.86906443876741,
+      "source_rms_ratio_db": 6.317188107661837,
+      "mix_si_snr_to_s1_db": 6.306134761969492,
+      "mix_si_snr_to_s2_db": -6.366909250255902,
+      "mix_clip_fraction": 0.0
+    },
+    {
+      "split": "train",
+      "file": "00014790387_00834257037.wav",
+      "sample_rate": 16000,
+      "channels": 1,
+      "sample_width_bytes": 2,
+      "frames": 32000,
+      "duration_seconds": 2.0,
+      "mix_minus_sum_rms": 1.5265463323039586e-05,
+      "mix_to_sum_residual_db": 78.88405367963314,
+      "fitted_coefficients": [
+        0.9999995103225962,
+        1.0000003412328582
+      ],
+      "mix_to_fitted_residual_db": 78.88411751548118,
+      "source_rms_ratio_db": 1.7634818268997692,
+      "mix_si_snr_to_s1_db": 1.7718300533913733,
+      "mix_si_snr_to_s2_db": -1.7509201451719836,
+      "mix_clip_fraction": 0.0
+    },
+    {
+      "split": "train",
+      "file": "00726291346_00933674642.wav",
+      "sample_rate": 16000,
+      "channels": 1,
+      "sample_width_bytes": 2,
+      "frames": 32000,
+      "duration_seconds": 2.0,
+      "mix_minus_sum_rms": 1.5225373873500905e-05,
+      "mix_to_sum_residual_db": 79.74819307442772,
+      "fitted_coefficients": [
+        1.0000002161172572,
+        0.9999993188671877
+      ],
+      "mix_to_fitted_residual_db": 79.74826488679965,
+      "source_rms_ratio_db": 3.7282353162709687,
+      "mix_si_snr_to_s1_db": 3.64590267480701,
+      "mix_si_snr_to_s2_db": -3.925124763804959,
+      "mix_clip_fraction": 0.0
+    },
+    {
+      "split": "val",
+      "file": "00629560144_00329305687.wav",
+      "sample_rate": 16000,
+      "channels": 1,
+      "sample_width_bytes": 2,
+      "frames": 32000,
+      "duration_seconds": 2.0,
+      "mix_minus_sum_rms": 1.5352912520726687e-05,
+      "mix_to_sum_residual_db": 78.87371314459871,
+      "fitted_coefficients": [
+        0.9999993417402843,
+        1.00000000718659
+      ],
+      "mix_to_fitted_residual_db": 78.87381872374745,
+      "source_rms_ratio_db": 4.341948167721431,
+      "mix_si_snr_to_s1_db": 4.373413184444017,
+      "mix_si_snr_to_s2_db": -4.256906812119802,
+      "mix_clip_fraction": 0.0
+    },
+    {
+      "split": "val",
+      "file": "00126474120_00174355883.wav",
+      "sample_rate": 16000,
+      "channels": 1,
+      "sample_width_bytes": 2,
+      "frames": 32000,
+      "duration_seconds": 2.0,
+      "mix_minus_sum_rms": 1.5268322827293015e-05,
+      "mix_to_sum_residual_db": 81.07574077080132,
+      "fitted_coefficients": [
+        1.0000007587469064,
+        1.0000000384143193
+      ],
+      "mix_to_fitted_residual_db": 81.07592301495461,
+      "source_rms_ratio_db": 0.9547494132935288,
+      "mix_si_snr_to_s1_db": 0.757500930194098,
+      "mix_si_snr_to_s2_db": -1.201874773420187,
+      "mix_clip_fraction": 0.0
+    },
+    {
+      "split": "val",
+      "file": "00157391039_00956340128.wav",
+      "sample_rate": 16000,
+      "channels": 1,
+      "sample_width_bytes": 2,
+      "frames": 32000,
+      "duration_seconds": 2.0,
+      "mix_minus_sum_rms": 1.5236838765090506e-05,
+      "mix_to_sum_residual_db": 81.2988254007748,
+      "fitted_coefficients": [
+        1.0000003656320702,
+        0.9999991721684777
+      ],
+      "mix_to_fitted_residual_db": 81.2989494923861,
+      "source_rms_ratio_db": 7.338395195904106,
+      "mix_si_snr_to_s1_db": 7.417567891475021,
+      "mix_si_snr_to_s2_db": -6.92575557089766,
+      "mix_clip_fraction": 0.0
+    },
+    {
+      "split": "val",
+      "file": "00978964977_00409206126.wav",
+      "sample_rate": 16000,
+      "channels": 1,
+      "sample_width_bytes": 2,
+      "frames": 32000,
+      "duration_seconds": 2.0,
+      "mix_minus_sum_rms": 1.5203375332056335e-05,
+      "mix_to_sum_residual_db": 78.645662491269,
+      "fitted_coefficients": [
+        0.9999991040546921,
+        0.9999980031502295
+      ],
+      "mix_to_fitted_residual_db": 78.64608450432512,
+      "source_rms_ratio_db": 7.044091121378232,
+      "mix_si_snr_to_s1_db": 7.036154789703005,
+      "mix_si_snr_to_s2_db": -7.086454224909606,
+      "mix_clip_fraction": 0.0
+    },
+    {
+      "split": "val",
+      "file": "00649258831_00501330662.wav",
+      "sample_rate": 16000,
+      "channels": 1,
+      "sample_width_bytes": 2,
+      "frames": 32000,
+      "duration_seconds": 2.0,
+      "mix_minus_sum_rms": 1.5340585812580586e-05,
+      "mix_to_sum_residual_db": 79.17296699592893,
+      "fitted_coefficients": [
+        0.9999999824329355,
+        1.0000002955715588
+      ],
+      "mix_to_fitted_residual_db": 79.17297378585799,
+      "source_rms_ratio_db": 5.840381410041774,
+      "mix_si_snr_to_s1_db": 5.703090211311498,
+      "mix_si_snr_to_s2_db": -6.380411000465864,
+      "mix_clip_fraction": 0.0
+    },
+    {
+      "split": "val",
+      "file": "00379724847_00978964977.wav",
+      "sample_rate": 16000,
+      "channels": 1,
+      "sample_width_bytes": 2,
+      "frames": 32000,
+      "duration_seconds": 2.0,
+      "mix_minus_sum_rms": 1.5221550323999753e-05,
+      "mix_to_sum_residual_db": 77.66810066891591,
+      "fitted_coefficients": [
+        1.000001035843863,
+        1.0000010430913788
+      ],
+      "mix_to_fitted_residual_db": 77.66837452190819,
+      "source_rms_ratio_db": 2.0643033629352274,
+      "mix_si_snr_to_s1_db": 1.965895001720882,
+      "mix_si_snr_to_s2_db": -2.2237194239798637,
+      "mix_clip_fraction": 0.0
+    },
+    {
+      "split": "val",
+      "file": "00938147456_00134887609.wav",
+      "sample_rate": 16000,
+      "channels": 1,
+      "sample_width_bytes": 2,
+      "frames": 32000,
+      "duration_seconds": 2.0,
+      "mix_minus_sum_rms": 1.5203375332056335e-05,
+      "mix_to_sum_residual_db": 80.55544556182824,
+      "fitted_coefficients": [
+        0.9999986920823538,
+        1.0000001484637768
+      ],
+      "mix_to_fitted_residual_db": 80.55592574204536,
+      "source_rms_ratio_db": 1.1134494042846743,
+      "mix_si_snr_to_s1_db": 1.120860275769004,
+      "mix_si_snr_to_s2_db": -1.103826379435039,
+      "mix_clip_fraction": 0.0
+    },
+    {
+      "split": "val",
+      "file": "00193067759_00649258831.wav",
+      "sample_rate": 16000,
+      "channels": 1,
+      "sample_width_bytes": 2,
+      "frames": 32000,
+      "duration_seconds": 2.0,
+      "mix_minus_sum_rms": 1.5185178586658148e-05,
+      "mix_to_sum_residual_db": 79.67734490718917,
+      "fitted_coefficients": [
+        1.0000009370405767,
+        1.0000011800754443
+      ],
+      "mix_to_fitted_residual_db": 79.67779910889784,
+      "source_rms_ratio_db": 0.28659014838788194,
+      "mix_si_snr_to_s1_db": 0.4458314340318925,
+      "mix_si_snr_to_s2_db": -0.12142885299317208,
+      "mix_clip_fraction": 0.0
+    },
+    {
+      "split": "val",
+      "file": "00704916784_00288313616.wav",
+      "sample_rate": 16000,
+      "channels": 1,
+      "sample_width_bytes": 2,
+      "frames": 32000,
+      "duration_seconds": 2.0,
+      "mix_minus_sum_rms": 1.5272134666780015e-05,
+      "mix_to_sum_residual_db": 79.86726531973554,
+      "fitted_coefficients": [
+        0.9999997257601989,
+        0.9999979968838615
+      ],
+      "mix_to_fitted_residual_db": 79.86744787999929,
+      "source_rms_ratio_db": 9.974247050708925,
+      "mix_si_snr_to_s1_db": 9.907540807649067,
+      "mix_si_snr_to_s2_db": -10.687976871511257,
+      "mix_clip_fraction": 0.0
+    },
+    {
+      "split": "val",
+      "file": "00501330662_00876089065.wav",
+      "sample_rate": 16000,
+      "channels": 1,
+      "sample_width_bytes": 2,
+      "frames": 32000,
+      "duration_seconds": 2.0,
+      "mix_minus_sum_rms": 1.471009787342746e-05,
+      "mix_to_sum_residual_db": 78.4573957235726,
+      "fitted_coefficients": [
+        1.0000019347076665,
+        0.999999025044069
+      ],
+      "mix_to_fitted_residual_db": 78.45833206665354,
+      "source_rms_ratio_db": 5.107107945287465,
+      "mix_si_snr_to_s1_db": 5.118003785655646,
+      "mix_si_snr_to_s2_db": -5.071756863506196,
+      "mix_clip_fraction": 0.0
+    },
+    {
+      "split": "val",
+      "file": "00135677033_00686831197.wav",
+      "sample_rate": 16000,
+      "channels": 1,
+      "sample_width_bytes": 2,
+      "frames": 32000,
+      "duration_seconds": 2.0,
+      "mix_minus_sum_rms": 1.5427609195049254e-05,
+      "mix_to_sum_residual_db": 78.44381063031125,
+      "fitted_coefficients": [
+        1.000000405366126,
+        0.999999763671437
+      ],
+      "mix_to_fitted_residual_db": 78.44384208916627,
+      "source_rms_ratio_db": -0.8734394724162288,
+      "mix_si_snr_to_s1_db": -0.825080229554449,
+      "mix_si_snr_to_s2_db": 0.9129996849673065,
+      "mix_clip_fraction": 0.0
+    },
+    {
+      "split": "val",
+      "file": "00917911238_00803832442.wav",
+      "sample_rate": 16000,
+      "channels": 1,
+      "sample_width_bytes": 2,
+      "frames": 32000,
+      "duration_seconds": 2.0,
+      "mix_minus_sum_rms": 1.527404022978784e-05,
+      "mix_to_sum_residual_db": 82.72495824978003,
+      "fitted_coefficients": [
+        1.0000000475526878,
+        1.0000000111173395
+      ],
+      "mix_to_fitted_residual_db": 82.72495980321999,
+      "source_rms_ratio_db": 7.278103768919264,
+      "mix_si_snr_to_s1_db": 7.332415824218503,
+      "mix_si_snr_to_s2_db": -6.995685736995001,
+      "mix_clip_fraction": 0.0
+    },
+    {
+      "split": "val",
+      "file": "00185342361_00987497530.wav",
+      "sample_rate": 16000,
+      "channels": 1,
+      "sample_width_bytes": 2,
+      "frames": 32000,
+      "duration_seconds": 2.0,
+      "mix_minus_sum_rms": 1.526260328304764e-05,
+      "mix_to_sum_residual_db": 81.53143557033273,
+      "fitted_coefficients": [
+        1.0000007658064822,
+        0.9999991734825139
+      ],
+      "mix_to_fitted_residual_db": 81.53182984644728,
+      "source_rms_ratio_db": 4.936667872692784,
+      "mix_si_snr_to_s1_db": 4.811788843222043,
+      "mix_si_snr_to_s2_db": -5.338384014647794,
+      "mix_clip_fraction": 0.0
+    },
+    {
+      "split": "val",
+      "file": "00575827599_00921025229.wav",
+      "sample_rate": 16000,
+      "channels": 1,
+      "sample_width_bytes": 2,
+      "frames": 32000,
+      "duration_seconds": 2.0,
+      "mix_minus_sum_rms": 1.5200503609946905e-05,
+      "mix_to_sum_residual_db": 78.40568420117192,
+      "fitted_coefficients": [
+        1.0000002312555787,
+        0.9999982619725362
+      ],
+      "mix_to_fitted_residual_db": 78.4059242842819,
+      "source_rms_ratio_db": 5.149644821342858,
+      "mix_si_snr_to_s1_db": 4.920168205613481,
+      "mix_si_snr_to_s2_db": -5.950893230071021,
+      "mix_clip_fraction": 0.0
+    },
+    {
+      "split": "val",
+      "file": "00731605198_00214755779.wav",
+      "sample_rate": 16000,
+      "channels": 1,
+      "sample_width_bytes": 2,
+      "frames": 32000,
+      "duration_seconds": 2.0,
+      "mix_minus_sum_rms": 1.5279755492936325e-05,
+      "mix_to_sum_residual_db": 80.05112629879659,
+      "fitted_coefficients": [
+        1.0000005820935431,
+        1.0000000891033185
+      ],
+      "mix_to_fitted_residual_db": 80.05122567752771,
+      "source_rms_ratio_db": 2.525977027977536,
+      "mix_si_snr_to_s1_db": 2.2968552384545577,
+      "mix_si_snr_to_s2_db": -2.944814099898231,
+      "mix_clip_fraction": 0.0
+    },
+    {
+      "split": "val",
+      "file": "00786543994_00775186303.wav",
+      "sample_rate": 16000,
+      "channels": 1,
+      "sample_width_bytes": 2,
+      "frames": 32000,
+      "duration_seconds": 2.0,
+      "mix_minus_sum_rms": 1.5272134666780015e-05,
+      "mix_to_sum_residual_db": 81.21819982567052,
+      "fitted_coefficients": [
+        1.0000002113133164,
+        0.9999995650967973
+      ],
+      "mix_to_fitted_residual_db": 81.2182493904458,
+      "source_rms_ratio_db": 3.26104383378335,
+      "mix_si_snr_to_s1_db": 3.4340315438489895,
+      "mix_si_snr_to_s2_db": -2.9021317701444223,
+      "mix_clip_fraction": 0.0
+    }
+  ]
+}

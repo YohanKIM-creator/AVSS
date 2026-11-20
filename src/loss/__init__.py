@@ -1,1 +1,1 @@
-from src.loss.example import ExampleLoss
+from AVSS.src.loss.loss import ExampleLoss

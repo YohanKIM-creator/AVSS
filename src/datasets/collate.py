@@ -1,6 +1,6 @@
 import torch
 
-
+# Should allign all audio samples to make proper batch
 def collate_fn(dataset_items: list[dict]):
     """
     Collate and pad fields in the dataset items.

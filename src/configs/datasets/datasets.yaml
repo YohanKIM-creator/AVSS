@@ -1,0 +1,13 @@
+train:
+  _target_: src.datasets.custom_dataset.AudioDataset # we can concat datasets if we want to
+  audio_dir: "./dla_dataset_audio/train"
+  preprocess: null
+  augmentation: null
+  mode: "train"
+
+val:
+  _target_: src.datasets.custom_dataset.AudioDataset
+  audio_dir: "./dla_dataset_audio/val"
+  preprocess: null
+  augmentation: null
+  mode: "validation"
