@@ -1,1 +1,1 @@
-from AVSS.src.metrics.metrics import ExampleMetric
+from src.metrics.metrics import SDRiMetric

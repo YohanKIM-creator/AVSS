@@ -41,25 +41,24 @@ class AudioDataset(Dataset):
 
         return {"mix": wf_1 + wf_2, "s1": wf_1, "s2": wf_2, "sample_rate": sr_1}
 
+    def _load_audio(self, path):
+        waveform, sample_rate = torchaudio.load(path)
+        if self.preprocess:
+            waveform, sample_rate = self.preprocess(waveform, sample_rate)
+        waveform = waveform.mean(dim=0, keepdim=True)
+        waveform = waveform.squeeze(0)
+        return waveform, sample_rate
+
     def __getitem__(self, idx):
-        # Augmentation with dynamic mixing
-        if random.random() > self.dynamic_mixing_prob:
+        if self.mode == "train" and random.random() < self.dynamic_mixing_prob:
             return self.make_dynamic_sample()
 
         item = self.data[idx]
-
-        waveform, sample_rate = torchaudio.load(item["mix"])
-
-        if self.preprocess:
-            waveform, sample_rate = self.preprocess(waveform, sample_rate)
+        waveform, sample_rate = self._load_audio(item["mix"])
 
         if self.mode == "train" or self.mode == "validation":
-            target_wf_1, target_sr_1 = torchaudio.load(item["s1"])
-            target_wf_2, target_sr_2 = torchaudio.load(item["s2"])
-
-            if self.preprocess:
-                target_wf_1, _ = self.preprocess(target_wf_1, target_sr_1)
-                target_wf_2, _ = self.preprocess(target_wf_2, target_sr_2)
+            target_wf_1, _ = self._load_audio(item["s1"])
+            target_wf_2, _ = self._load_audio(item["s2"])
 
             sample = {"mix": waveform, "s1": target_wf_1, "s2": target_wf_2, "sample_rate": sample_rate}
             if self.mode == "train" and self.augmentation is not None:
