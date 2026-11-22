@@ -4,6 +4,9 @@ train:
   preprocess: null
   augmentation: null
   mode: "train"
+  dynamic_mixing_prob: 0.5
+  limit: null
+  mouths_dir: null
 
 val:
   _target_: src.datasets.custom_dataset.AudioDataset
@@ -11,3 +14,5 @@ val:
   preprocess: null
   augmentation: null
   mode: "validation"
+  limit: null
+  mouths_dir: null
