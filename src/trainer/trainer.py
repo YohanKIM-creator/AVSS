@@ -79,9 +79,10 @@ class Trainer(BaseTrainer):
         # such as audio, text or images, for example
 
         # logging scheme might be different for different partitions
-        if mode == "train":  # the method is called only every self.log_step steps
-            # Log Stuff
-            pass
-        else:
-            # Log Stuff
-            pass
+        self.writer.add_audio("mix", batch["mix"][0].float(), sample_rate=batch["sample_rate"])
+        self.writer.add_audio("est1", batch["logits"][0, 0].float(), sample_rate=batch["sample_rate"])
+        self.writer.add_audio("est2", batch["logits"][0, 1].float(), sample_rate=batch["sample_rate"])
+        if "targets" in batch:
+            self.writer.add_audio("target1", batch["targets"][0, 0].float(), sample_rate=batch["sample_rate"])
+            self.writer.add_audio("target2", batch["targets"][0, 1].float(), sample_rate=batch["sample_rate"])
+
