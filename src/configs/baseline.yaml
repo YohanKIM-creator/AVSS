@@ -1,7 +1,7 @@
 defaults:
   - model: sepreformer
   - writer: cometml
-  - metrics: none
+  - metrics: separation
   - datasets: datasets
   - dataloader: example
   - transforms: none
@@ -23,8 +23,9 @@ trainer:
   resume_from: null # null or path to the checkpoint dir with *.pth and config.yaml
   device: auto # device name or "auto"
   override: False # if True, will override the previous run with the same name
-  monitor: "off" # "off" or "max/min metric_name", i.e. our goal is to maximize/minimize metric
+  monitor: "max val_SISNRi" # "off" or "max/min metric_name", i.e. our goal is to maximize/minimize metric
   save_period: 5 # checkpoint each save_period epochs in addition to the best epoch
   early_stop: ${trainer.n_epochs} # epochs for early stopping
+  max_grad_norm: 5
   save_dir: "saved"
   seed: 1
