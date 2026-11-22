@@ -179,6 +179,8 @@ class BaseTrainer:
             best, stop_process, not_improved_count = self._monitor_performance(
                 logs, not_improved_count
             )
+            if self.mnt_mode != "off" and isinstance(self.lr_scheduler, torch.optim.lr_scheduler.ReduceLROnPlateau):
+                self.lr_scheduler.step(logs[self.mnt_metric])
 
             if epoch % self.save_period == 0 or best:
                 self._save_checkpoint(epoch, save_best=best, only_best=True)
@@ -229,7 +231,7 @@ class BaseTrainer:
                     )
                 )
                 self.writer.add_scalar(
-                    "learning rate", self.lr_scheduler.get_last_lr()[0]
+                    "learning rate", self.optimizer.param_groups[0]["lr"]
                 )
                 self._log_scalars(self.train_metrics)
                 self._log_batch(batch_idx, batch)

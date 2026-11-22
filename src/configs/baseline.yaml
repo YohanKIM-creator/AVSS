@@ -7,12 +7,14 @@ defaults:
   - transforms: none
   - _self_
 optimizer:
-  _target_: torch.optim.Adam
+  _target_: torch.optim.AdamW
   lr: 3e-4
+  weight_decay: 1e-2
 lr_scheduler:
-  _target_: torch.optim.lr_scheduler.StepLR
-  gamma: 0.9
-  step_size: ${trainer.epoch_len}
+  _target_: torch.optim.lr_scheduler.ReduceLROnPlateau
+  mode: max
+  factor: 0.5
+  patience: 3
 loss_function:
   _target_: src.loss.SDRiLoss
 trainer:
@@ -28,4 +30,5 @@ trainer:
   early_stop: ${trainer.n_epochs} # epochs for early stopping
   max_grad_norm: 5
   save_dir: "saved"
+  use_amp: True
   seed: 1
