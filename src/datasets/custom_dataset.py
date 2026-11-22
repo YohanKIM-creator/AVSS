@@ -51,15 +51,23 @@ class AudioDataset(Dataset):
     # dynamic mixing
     def make_dynamic_sample(self):
         rng = np.random.default_rng()
-        source_id_1, source_id_2 = rng.choice(len(self.data), size=2, replace=False)
-        wf_1, sr_1 = self.data[source_id_1]
-        wf_2, sr_2 = self.data[source_id_2]
+        source_id_1, source_id_2 = rng.choice(len(self.sources), size=2, replace=False)
+        while True:
+            source_id_1, source_id_2 = rng.choice(len(self.sources), size=2, replace=False)
+            audio1, mouth1 = self.sources[source_id_1]["audio"], self.sources[source_id_1]["mouth"]
+            audio2, mouth2 = self.sources[source_id_2]["audio"], self.sources[source_id_2]["mouth"]
+            if mouth1 != mouth2:
+                break
+        wf_1, sr = self._load_audio(audio1)
+        wf_2, _ = self._load_audio(audio2)
+        mix = wf_1 + wf_2
+        mx = mix.abs().max()
+        if mx > 1:
+            mix /= mx
+            wf_1 /= mx
+            wf_2 /= mx
 
-        if self.preprocess is not None:
-            wf_1, sr_1 = self.preprocess(wf_1, sr_1)
-            wf_2, _ = self.preprocess(wf_2, sr_2)
-
-        return {"mix": wf_1 + wf_2, "s1": wf_1, "s2": wf_2, "sample_rate": sr_1}
+        return {"mix": mix, "s1": wf_1, "s2": wf_2, "sample_rate": sr, "s1_mouth": mouth1, "s2_mouth": mouth2}
 
     def _load_audio(self, path):
         waveform, sample_rate = sf.read(path, dtype="float32")

@@ -13,3 +13,11 @@ from src.datasets.collate import collate_fn
 
 items = [dataset[0], dataset[1]]
 batch = collate_fn(items)
+
+train_ds = AudioDataset(audio_dir="C:/Users/user/projects/dla_dataset/audio/train", mode="train", limit=100)
+dyn = train_ds.make_dynamic_sample()
+print("keys:", sorted(dyn.keys()))
+print("shapes:", dyn["mix"].shape, dyn["s1"].shape, dyn["s2"].shape)
+print("mix - s1 - s2:", (dyn["mix"] - dyn["s1"] - dyn["s2"]).abs().max().item())
+print("max |mix|:", dyn["mix"].abs().max().item())
+print("mouths:", dyn["s1_mouth"].name, dyn["s2_mouth"].name)
