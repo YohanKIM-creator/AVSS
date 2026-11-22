@@ -1,1 +1,1 @@
-from AVSS.src.loss.loss import ExampleLoss
+from src.loss.loss import SDRiLoss
