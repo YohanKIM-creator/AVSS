@@ -28,6 +28,7 @@ trainer:
   monitor: "max val_SISNRi" # "off" or "max/min metric_name", i.e. our goal is to maximize/minimize metric
   save_period: 5 # checkpoint each save_period epochs in addition to the best epoch
   early_stop: ${trainer.n_epochs} # epochs for early stopping
+  warmup_start_factor: 0.1
   max_grad_norm: 5
   save_dir: "saved"
   use_amp: True
