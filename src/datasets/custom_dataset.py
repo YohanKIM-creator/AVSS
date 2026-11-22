@@ -5,7 +5,8 @@ import numpy as np
 from pathlib import Path
 import random
 from torch.utils.data import Dataset
-import torchaudio
+import soundfile as sf
+import torch
 
 class AudioDataset(Dataset):
     def __init__(self, audio_dir, preprocess=None, augmentation=None, mouths_dir=None, limit=None, mode="train", dynamic_mixing_prob=0.0):
@@ -61,11 +62,12 @@ class AudioDataset(Dataset):
         return {"mix": wf_1 + wf_2, "s1": wf_1, "s2": wf_2, "sample_rate": sr_1}
 
     def _load_audio(self, path):
-        waveform, sample_rate = torchaudio.load(path)
+        waveform, sample_rate = sf.read(path, dtype="float32")
+        waveform = torch.from_numpy(waveform)
+        if waveform.ndim == 2:
+            waveform = waveform.mean(dim=-1)
         if self.preprocess:
             waveform, sample_rate = self.preprocess(waveform, sample_rate)
-        waveform = waveform.mean(dim=0, keepdim=True)
-        waveform = waveform.squeeze(0)
         return waveform, sample_rate
 
     def __getitem__(self, idx):
