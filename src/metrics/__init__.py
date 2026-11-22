@@ -1,1 +1,1 @@
-from src.metrics.metrics import SDRiMetric
+from src.metrics.metrics import SISNRi
