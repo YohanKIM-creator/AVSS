@@ -74,13 +74,13 @@ class AudioDataset(Dataset):
             target_wf_1, _ = self._load_audio(item["s1"])
             target_wf_2, _ = self._load_audio(item["s2"])
 
-            sample = {"mix": waveform, "s1": target_wf_1, "s2": target_wf_2, "sample_rate": sample_rate}
+            sample = {"mix": waveform, "s1": target_wf_1, "s2": target_wf_2, "sample_rate": sample_rate, "s1_mouth": item["s1_mouth"], "s2_mouth": item["s2_mouth"]}
             if self.mode == "train" and self.augmentation is not None:
                 sample = self.augmentation(sample)
 
             return sample
 
-        return {"mix": waveform, "sample_rate": sample_rate}
+        return {"mix": waveform, "sample_rate": sample_rate, "s1_mouth": item["s1_mouth"], "s2_mouth": item["s2_mouth"]}
 
     def __len__(self):
         return len(self.data)
