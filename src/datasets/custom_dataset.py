@@ -8,7 +8,7 @@ from torch.utils.data import Dataset
 import torchaudio
 
 class AudioDataset(Dataset):
-    def __init__(self, audio_dir, preprocess=None, augmentation=None, mouths_dir=None, mode="train", dynamic_mixing_prob=0.0):
+    def __init__(self, audio_dir, preprocess=None, augmentation=None, mouths_dir=None, limit=None, mode="train", dynamic_mixing_prob=0.0):
         super().__init__()
         self.audio_dir = Path(audio_dir) # audio_dir is the root of split on mix, s1, s2 
         self.preprocess = preprocess
@@ -36,6 +36,11 @@ class AudioDataset(Dataset):
                 if mode == "train":
                     self.sources.append({"audio": target_file_1, "mouth": path1})
                     self.sources.append({"audio": target_file_2, "mouth": path2})
+
+        self.limit = limit
+        if self.limit is not None:
+            self.data = self.data[:limit]
+            self.sources = self.sources[:2 * limit]
 
     def _parse_ids(self, mix_path):
         name = mix_path.stem
