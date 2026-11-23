@@ -204,10 +204,21 @@ class BaseTrainer:
         self.train_metrics.reset()
         self.writer.set_step((epoch - 1) * self.epoch_len)
         self.writer.add_scalar("epoch", epoch)
+        start_factor = self.cfg_trainer.get("warmup_start_factor", 1)
+        warmup_lrs = []
+        if (epoch == 1 and start_factor < 1):
+            warmup_lrs = [group["lr"] for group in self.optimizer.param_groups]
         for batch_idx, batch in enumerate(
             tqdm(self.train_dataloader, desc="train", total=self.epoch_len)
         ):
             try:
+                if warmup_lrs:
+                    progress = min(batch_idx / (self.epoch_len - 1), 1.0)
+                    factor = start_factor + (1.0 - start_factor) * progress
+                    for group, lr in zip(self.optimizer.param_groups, warmup_lrs):
+                        group["lr"] = lr * factor
+
+                batch_lr = self.optimizer.param_groups[0]["lr"] # for logging in Comet
                 batch = self.process_batch(
                     batch,
                     metrics=self.train_metrics,
@@ -219,6 +230,9 @@ class BaseTrainer:
                     continue
                 else:
                     raise e
+            finally:
+                for group, lr in zip(self.optimizer.param_groups, warmup_lrs):
+                    group["lr"] = lr
 
             self.train_metrics.update("grad_norm", self._get_grad_norm())
 
@@ -231,7 +245,7 @@ class BaseTrainer:
                     )
                 )
                 self.writer.add_scalar(
-                    "learning rate", self.optimizer.param_groups[0]["lr"]
+                    "learning rate", batch_lr if warmup_lrs else self.optimizer.param_groups[0]["lr"]
                 )
                 self._log_scalars(self.train_metrics)
                 self._log_batch(batch_idx, batch)
