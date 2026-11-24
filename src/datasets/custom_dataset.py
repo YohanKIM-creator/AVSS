@@ -9,7 +9,7 @@ import soundfile as sf
 import torch
 
 class AudioDataset(Dataset):
-    def __init__(self, audio_dir, preprocess=None, augmentation=None, mouths_dir=None, limit=None, mode="train", dynamic_mixing_prob=0.0):
+    def __init__(self, audio_dir, preprocess=None, augmentation=None, mouths_dir=None, emb_dir=None, limit=None, mode="train", dynamic_mixing_prob=0.0):
         super().__init__()
         self.audio_dir = Path(audio_dir) # audio_dir is the root of split on mix, s1, s2 
         self.preprocess = preprocess
@@ -17,6 +17,7 @@ class AudioDataset(Dataset):
         self.mode = mode
         self.dynamic_mixing_prob = dynamic_mixing_prob
         self.mouths_dir = Path(mouths_dir) if mouths_dir is not None else Path(self.audio_dir.parent.parent / "mouths") 
+        self.emb_dir = Path(emb_dir) if emb_dir is not None else Path(self.audio_dir.parent.parent / "lip_emb")
 
         self.data = []
         self.sources = []
@@ -25,18 +26,20 @@ class AudioDataset(Dataset):
             for file_name in sorted((self.audio_dir / "mix").iterdir()):
                 id1, id2 = self._parse_ids(file_name)
                 path1, path2 = self.mouths_dir / f"{id1}.npz", self.mouths_dir / f"{id2}.npz"
-                self.data.append({"mix": file_name, "s1_mouth": path1, "s2_mouth": path2})
+                emb1, emb2 = self.emb_dir / f"{id1}.npy", self.emb_dir / f"{id2}.npy"
+                self.data.append({"mix": file_name, "s1_mouth": path1, "s2_mouth": path2, "s1_emb": emb1, "s2_emb": emb2})
 
         if mode == "train" or mode == "validation":
             for file_name in sorted((self.audio_dir / "mix").iterdir()):
                 id1, id2 = self._parse_ids(file_name)
                 path1, path2 = self.mouths_dir / f"{id1}.npz", self.mouths_dir / f"{id2}.npz"
+                emb1, emb2 = self.emb_dir / f"{id1}.npy", self.emb_dir / f"{id2}.npy"
                 target_file_1 = self.audio_dir / "s1" / file_name.name
                 target_file_2 = self.audio_dir / "s2" / file_name.name
-                self.data.append({"mix": file_name, "s1": target_file_1, "s2": target_file_2, "s1_mouth": path1, "s2_mouth": path2})
+                self.data.append({"mix": file_name, "s1": target_file_1, "s2": target_file_2, "s1_mouth": path1, "s2_mouth": path2, "s1_emb": emb1, "s2_emb": emb2})
                 if mode == "train":
-                    self.sources.append({"audio": target_file_1, "mouth": path1})
-                    self.sources.append({"audio": target_file_2, "mouth": path2})
+                    self.sources.append({"audio": target_file_1, "mouth": path1, "emb": emb1})
+                    self.sources.append({"audio": target_file_2, "mouth": path2, "emb": emb2})
 
         self.limit = limit
         if self.limit is not None:
@@ -51,15 +54,15 @@ class AudioDataset(Dataset):
     # dynamic mixing
     def make_dynamic_sample(self):
         rng = np.random.default_rng()
-        source_id_1, source_id_2 = rng.choice(len(self.sources), size=2, replace=False)
         while True:
             source_id_1, source_id_2 = rng.choice(len(self.sources), size=2, replace=False)
-            audio1, mouth1 = self.sources[source_id_1]["audio"], self.sources[source_id_1]["mouth"]
-            audio2, mouth2 = self.sources[source_id_2]["audio"], self.sources[source_id_2]["mouth"]
+            audio1, mouth1, emb1 = self.sources[source_id_1]["audio"], self.sources[source_id_1]["mouth"], self.sources[source_id_1]["emb"]
+            audio2, mouth2, emb2 = self.sources[source_id_2]["audio"], self.sources[source_id_2]["mouth"], self.sources[source_id_2]["emb"]
             if mouth1 != mouth2:
                 break
         wf_1, sr = self._load_audio(audio1)
         wf_2, _ = self._load_audio(audio2)
+        s1_video, s2_video = self._load_emb(emb1), self._load_emb(emb2)
         mix = wf_1 + wf_2
         mx = mix.abs().max()
         if mx > 1:
@@ -67,7 +70,7 @@ class AudioDataset(Dataset):
             wf_1 /= mx
             wf_2 /= mx
 
-        return {"mix": mix, "s1": wf_1, "s2": wf_2, "sample_rate": sr, "s1_mouth": mouth1, "s2_mouth": mouth2}
+        return {"mix": mix, "s1": wf_1, "s2": wf_2, "sample_rate": sr, "s1_mouth": mouth1, "s2_mouth": mouth2, "s1_video": s1_video, "s2_video": s2_video}
 
     def _load_audio(self, path):
         waveform, sample_rate = sf.read(path, dtype="float32")
@@ -78,24 +81,30 @@ class AudioDataset(Dataset):
             waveform, sample_rate = self.preprocess(waveform, sample_rate)
         return waveform, sample_rate
 
+    def _load_emb(self, path):
+        emb = torch.from_numpy(np.load(path)).float()
+        return emb
+
+
     def __getitem__(self, idx):
         if self.mode == "train" and random.random() < self.dynamic_mixing_prob:
             return self.make_dynamic_sample()
 
         item = self.data[idx]
         waveform, sample_rate = self._load_audio(item["mix"])
-
+        video1 = self._load_emb(item["s1_emb"])
+        video2 = self._load_emb(item["s2_emb"])
         if self.mode == "train" or self.mode == "validation":
             target_wf_1, _ = self._load_audio(item["s1"])
             target_wf_2, _ = self._load_audio(item["s2"])
 
-            sample = {"mix": waveform, "s1": target_wf_1, "s2": target_wf_2, "sample_rate": sample_rate, "s1_mouth": item["s1_mouth"], "s2_mouth": item["s2_mouth"]}
+            sample = {"mix": waveform, "s1": target_wf_1, "s2": target_wf_2, "sample_rate": sample_rate, "s1_mouth": item["s1_mouth"], "s2_mouth": item["s2_mouth"], "s1_video": video1, "s2_video": video2}
             if self.mode == "train" and self.augmentation is not None:
                 sample = self.augmentation(sample)
 
             return sample
 
-        return {"mix": waveform, "sample_rate": sample_rate, "s1_mouth": item["s1_mouth"], "s2_mouth": item["s2_mouth"]}
+        return {"mix": waveform, "sample_rate": sample_rate, "s1_mouth": item["s1_mouth"], "s2_mouth": item["s2_mouth"], "s1_video": video1, "s2_video": video2}
 
     def __len__(self):
         return len(self.data)
