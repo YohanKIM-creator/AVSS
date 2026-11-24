@@ -43,13 +43,17 @@ class SDRiMetric(BaseMetric):
 
 
 class SISNRi(BaseMetric):
-    def __init__(self, name=None, *args, **kwargs):
+    def __init__(self, name=None, pit=True, *args, **kwargs):
         super().__init__(name, *args, **kwargs)
+        self.pit = pit
 
     def __call__(self, logits, targets, mix, **kwargs):
         with torch.no_grad():
             logits, targets, mix = logits.float(), targets.float(), mix.float()
-            sisnr = torch.maximum((si_snr(logits[:, 0], targets[:, 0]) + si_snr(logits[:, 1], targets[:, 1])) / 2, (si_snr(logits[:, 1], targets[:, 0]) + si_snr(logits[:, 0], targets[:, 1])) / 2)
+            if self.pit:
+                sisnr = torch.maximum((si_snr(logits[:, 0], targets[:, 0]) + si_snr(logits[:, 1], targets[:, 1])) / 2, (si_snr(logits[:, 1], targets[:, 0]) + si_snr(logits[:, 0], targets[:, 1])) / 2)
+            else:
+                sisnr = (si_snr(logits[:, 0], targets[:, 0]) + si_snr(logits[:, 1], targets[:, 1])) / 2
             mixed = (si_snr(mix, targets[:, 0]) + si_snr(mix, targets[:, 1])) / 2
             improvement = sisnr - mixed
             return improvement.mean().item()
