@@ -4,11 +4,12 @@ from torch import nn
 
 class SDRiLoss(nn.Module):
     # [see] 3.4 Multi-loss
-    def __init__(self, alpha=0.4, tau=30.0):
+    def __init__(self, alpha=0.4, tau=30.0, pit=True):
         super().__init__()
         self.initial_alpha = alpha
         self.alpha = alpha
         self.tau = tau
+        self.pit = pit
 
     def set_epoch(self, epoch):
         decays = max(0, epoch - 100) // 5
@@ -35,7 +36,9 @@ class SDRiLoss(nn.Module):
             si_snr = 10 * (signal.log10() - noise.log10())
             return si_snr.clamp(max=self.tau).sum(dim=1)
 
-        return -torch.maximum(score(targets), score(targets.flip(1))).mean()
+        if self.pit:
+            return -torch.maximum(score(targets), score(targets.flip(1))).mean()
+        return -score(targets).mean()
 
     def forward(self, logits, targets, lengths, aux_logits=(), **batch):
         main = self.pit_si_snr(logits, targets, lengths)

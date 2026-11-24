@@ -564,6 +564,13 @@ class BaseTrainer:
         checkpoint = torch.load(pretrained_path, self.device, weights_only=False)
 
         if checkpoint.get("state_dict") is not None:
-            self.model.load_state_dict(checkpoint["state_dict"])
+            result = self.model.load_state_dict(checkpoint["state_dict"], strict=False)
+
         else:
-            self.model.load_state_dict(checkpoint)
+            result = self.model.load_state_dict(checkpoint, strict=False)
+
+        if hasattr(self, "logger"):
+            self.logger.info(f"Missing keys: {result.missing_keys}\n Unexpected keys: {result.unexpected_keys}")
+        else:
+            print(f"Missing keys: {result.missing_keys}\n Unexpected keys: {result.unexpected_keys}")
+
