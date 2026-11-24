@@ -246,26 +246,40 @@ class Separator(nn.Module):
             nn.Linear(split_hidden, speakers * dim)
         )
         self.split_norm = nn.LayerNorm(dim)
+        self.video_proj = nn.Linear(512, dim)
+        nn.init.zeros_(self.video_proj.weight)
+        nn.init.zeros_(self.video_proj.bias)
 
         self.decoder = nn.ModuleList(ReconstructionStage(dim, heads, 2 ** level, radius, dropout, layer_scale_init) for level in range(1, levels + 1))
 
         # Project each speaker's features back to the audio encoder width F0
         self.output = nn.Sequential(nn.Linear(dim, 2 * dim), nn.GLU(), nn.Linear(dim, audio_dim))
 
-    def split_speakers(self, x):
+    def split_speakers(self, x, video=None):
         B, T, C = x.shape
-        x = self.split(x).reshape(B, T, self.speakers, C)
-        return self.split_norm(x).transpose(1, 2)  # [B, J, T, F]
+        x = self.split(x).reshape(B, T, self.speakers, C).transpose(1, 2)
+        x = self.split_norm(x)
+        B, J, T, FF = x.shape
+        if video is not None:
+            video = video.reshape(B * J, -1, FF)
+            video = video.transpose(1, 2)
+            video = F.interpolate(video, size=T, mode="linear", align_corners=False)
+            video = video.transpose(1, 2)
+            video = video.reshape(B, J, T, FF)
+            x = x + video
+        return x  # [B, J, T, F]
 
-    def forward(self, x):
+    def forward(self, x, video=None):
         x, skips = self.encoder(x)
+        if video is not None:
+            video = self.video_proj(video)
 
         # The same Speaker Split processes the bottleneck and every skip
-        x = self.split_speakers(x)
+        x = self.split_speakers(x, video)
         auxiliary_features = []
 
         for stage, skip in zip(self.decoder, reversed(skips)):
-            x = stage(x, self.split_speakers(skip))
+            x = stage(x, self.split_speakers(skip, video))
             if self.training:
                 auxiliary_features.append(x)
 
@@ -273,7 +287,7 @@ class Separator(nn.Module):
 
 
 class SepReformer(nn.Module):
-    def __init__(self, dropout=0.1, layer_scale_init=0.01):
+    def __init__(self, dropout=0.1, layer_scale_init=0.01, use_video=True):
         super().__init__()
         # [see] 4.2 -> SepReformer-T configuration
         audio_dim, dim, heads = 256, 64, 8
@@ -289,13 +303,17 @@ class SepReformer(nn.Module):
         self.aux_heads = nn.ModuleList(nn.Sequential(nn.Linear(dim, 2 * dim), nn.GLU(), nn.Linear(dim, audio_dim)) for _ in range(levels))
         self.aux_decoders = nn.ModuleList(nn.ConvTranspose1d(audio_dim, 1, self.kernel_size, stride=self.stride) for _ in range(levels))
 
+        self.use_video = use_video
+
     @staticmethod
     def decode(x, decoder, length):
         B, J, T, C = x.shape
         x = x.reshape(B * J, T, C).transpose(1, 2)
         return decoder(x).reshape(B, J, -1)[..., :length]
 
-    def forward(self, mix, **batch):
+    def forward(self, mix, video=None, **batch):
+        if self.use_video == False:
+            video = None
         # Pad to a multiple of 2**R encoded frames so every upsample matches its skip
         mix = mix.unsqueeze(1)
         remaining = max(0, mix.size(-1) - self.kernel_size)
@@ -303,7 +321,7 @@ class SepReformer(nn.Module):
         frames += (-frames) % self.frame_multiple
         padded_length = self.kernel_size + (frames - 1) * self.stride
         mixture = self.audio_encoder(F.pad(mix, (0, padded_length - mix.size(-1))))
-        final, features = self.separator(mixture)
+        final, features = self.separator(mixture, video)
 
         # Decode the main speaker estimates directly and crop back to N samples.
         output = {"logits": self.decode(final, self.audio_decoder, mix.size(-1))}
