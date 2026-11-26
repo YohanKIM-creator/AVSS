@@ -111,8 +111,8 @@ Training logs and audio samples are logged to the [Comet ML project](https://www
 
 ```bash
 python3 train.py -cn=baseline \
-  model.use_video=False \
-  loss_function.pit=True \
+  +model.use_video=False \
+  +loss_function.pit=True \
   metrics=separation \
   datasets.train.dynamic_mixing_prob=0.0 \
   dataloader.batch_size=4 \
@@ -125,14 +125,14 @@ python3 train.py -cn=baseline \
 
 ```bash
 python3 train.py -cn=baseline \
-  model.use_video=False \
-  loss_function.pit=True \
+  +model.use_video=False \
+  +loss_function.pit=True \
   metrics=separation \
   datasets.train.dynamic_mixing_prob=0.0 \
   dataloader.batch_size=4 \
   trainer.n_epochs=40 \
   optimizer.lr=1e-3 \
-  trainer.from_pretrained=saved/sepreformer_audio_nodm/model_best.pth \
+  +trainer.from_pretrained=saved/sepreformer_audio_nodm/model_best.pth \
   writer.run_name=sepreformer_audio_nodm_cont_lr1e3
 ```
 
@@ -140,25 +140,25 @@ python3 train.py -cn=baseline \
 
 ```bash
 python3 train.py -cn=baseline \
-  model.use_video=True \
-  loss_function.pit=False \
+  +model.use_video=True \
+  +loss_function.pit=False \
   metrics=separation_av \
   datasets.train.dynamic_mixing_prob=0.0 \
   dataloader.batch_size=4 \
   trainer.n_epochs=45 \
   optimizer.lr=1e-3 \
-  trainer.from_pretrained=saved/sepreformer_audio_nodm_cont_lr1e3/model_best.pth \
+  +trainer.from_pretrained=saved/sepreformer_audio_nodm_cont_lr1e3/model_best.pth \
   writer.run_name=sepreformer_av_lr1e3
 
 python3 train.py -cn=baseline \
-  model.use_video=True \
-  loss_function.pit=False \
+  +model.use_video=True \
+  +loss_function.pit=False \
   metrics=separation_av \
   datasets.train.dynamic_mixing_prob=0.0 \
   dataloader.batch_size=4 \
   trainer.n_epochs=20 \
   optimizer.lr=2.5e-4 \
-  trainer.from_pretrained=saved/sepreformer_av_lr1e3/model_best.pth \
+  +trainer.from_pretrained=saved/sepreformer_av_lr1e3/model_best.pth \
   writer.run_name=sepreformer_av_cont_lr25e5
 ```
 
