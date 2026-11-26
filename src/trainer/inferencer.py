@@ -1,5 +1,6 @@
 import torch
 from tqdm.auto import tqdm
+import soundfile as sf
 
 from src.metrics.tracker import MetricTracker
 from src.trainer.base_trainer import BaseTrainer
@@ -122,33 +123,20 @@ class Inferencer(BaseTrainer):
         outputs = self.model(**batch)
         batch.update(outputs)
 
-        if metrics is not None:
+        if metrics is not None and "targets" in batch:
             for met in self.metrics["inference"]:
                 metrics.update(met.name, met(**batch))
 
         # Some saving logic. This is an example
         # Use if you need to save predictions on disk
-
-        batch_size = batch["logits"].shape[0]
-        current_id = batch_idx * batch_size
-
-        for i in range(batch_size):
-            # clone because of
-            # https://github.com/pytorch/pytorch/issues/1995
-            logits = batch["logits"][i].clone()
-            label = batch["labels"][i].clone()
-            pred_label = logits.argmax(dim=-1)
-
-            output_id = current_id + i
-
-            output = {
-                "pred_label": pred_label,
-                "label": label,
-            }
-
-            if self.save_path is not None:
-                # you can use safetensors or other lib here
-                torch.save(output, self.save_path / part / f"output_{output_id}.pth")
+        if self.save_path is not None:
+            for i in range(len(batch["names"])):
+                for j in range(2):
+                    voice = batch["logits"][i, j].detach().cpu().float()
+                    if voice.abs().max() > 1:
+                        voice = voice / voice.abs().max()
+                    voice = voice.numpy()
+                    sf.write(str(self.save_path / f"s{j + 1}" / f"{batch['names'][i]}.wav"), voice, batch["sample_rate"])
 
         return batch
 
@@ -170,7 +158,8 @@ class Inferencer(BaseTrainer):
 
         # create Save dir
         if self.save_path is not None:
-            (self.save_path / part).mkdir(exist_ok=True, parents=True)
+            for j in range(2):
+                (self.save_path / f"s{j + 1}").mkdir(exist_ok=True, parents=True)
 
         with torch.no_grad():
             for batch_idx, batch in tqdm(

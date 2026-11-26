@@ -2,6 +2,9 @@ import warnings
 
 import hydra
 import torch
+from pathlib import Path
+import subprocess
+import sys
 from hydra.utils import instantiate
 
 from src.datasets.data_utils import get_dataloaders
@@ -29,20 +32,21 @@ def main(config):
     else:
         device = config.inferencer.device
 
+    save_path = Path(config.inferencer.save_path)
+    save_path.mkdir(exist_ok=True, parents=True)
+    subprocess.run([sys.executable, "scripts/extract_lip_embeddings.py", "--lip-repo" ,str(config.inferencer.lip_repo), 
+                    "--weights", str(config.inferencer.weights), "--mouths-dir", str(Path(config.datasets.test.data_dir) / "mouths"), "--out-dir", str(save_path / "lip_emb")], check=True)
     # setup data_loader instances
     # batch_transforms should be put on device
     dataloaders, batch_transforms = get_dataloaders(config, device)
 
     # build model architecture, then print to console
     model = instantiate(config.model).to(device)
-    print(model)
+    print(sum(p.numel() for p in model.parameters() if p.requires_grad))
 
     # get metrics
     metrics = instantiate(config.metrics)
 
-    # save_path for model predictions
-    save_path = ROOT_PATH / "data" / "saved" / config.inferencer.save_path
-    save_path.mkdir(exist_ok=True, parents=True)
 
     inferencer = Inferencer(
         model=model,

@@ -1,0 +1,4 @@
+test:
+  _target_: src.datasets.CustomDirDataset
+  data_dir: ???
+  emb_dir: ${inferencer.save_path}/lip_emb
