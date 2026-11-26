@@ -12,6 +12,8 @@ hydra-core
 soundfile
 scipy
 gdown
+pesq
+pystoi
 
 black
 isort
