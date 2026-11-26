@@ -10,6 +10,12 @@ def load(path):
     wf = torch.from_numpy(wf)
     return wf
 
+def find(folder, stem):
+    for file in folder.iterdir():
+        if file.stem == stem:
+            return file
+    raise FileNotFoundError(f"{stem} not found in {folder}")
+    
 parser = argparse.ArgumentParser()
 parser.add_argument("--pred-dir", type=str, default="saved/inference")
 parser.add_argument("--data-dir", required=True)
@@ -20,12 +26,13 @@ sdris = []
 pesqs = []
 stois = []
 for wav in sorted((pred_dir / "s1").glob("*.wav")):
+    stem = wav.stem
     name = wav.name
     est1 = pred_dir/ "s1" / name
     est2 = pred_dir/ "s2" / name
-    ref1 = data_dir/ "audio" / "s1" / name
-    ref2 = data_dir/ "audio" / "s2" / name
-    mix = data_dir/ "audio" / "mix" / name
+    ref1 = find(data_dir/ "audio" / "s1", stem)
+    ref2 = find(data_dir/ "audio" / "s2", stem)
+    mix =  find(data_dir/ "audio" / "mix", stem)
     rest1, rest2, rref1, rref2, rmix = load(est1), load(est2), load(ref1), load(ref2), load(mix)
     si_snri = (si_snr(rest1, rref1) + si_snr(rest2, rref2)) / 2 - (si_snr(rmix, rref1) + si_snr(rmix, rref2)) / 2
     sdri = (signal_distortion_ratio(rest1, rref1) + signal_distortion_ratio(rest2, rref2)) / 2 - (signal_distortion_ratio(rmix, rref1) + signal_distortion_ratio(rmix, rref2)) / 2
