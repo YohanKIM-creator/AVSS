@@ -1,149 +1,170 @@
-# PyTorch Template for DL projects
+# Audio-Visual Speech Separation with RoPE-Based SepReformer
 
-<p align="center">
-  <a href="#about">About</a> •
-  <a href="#tutorials">Tutorials</a> •
-  <a href="#examples">Examples</a> •
-  <a href="#installation">Installation</a> •
-  <a href="#how-to-use">How To Use</a> •
-  <a href="#useful-links">Useful Links</a> •
-  <a href="#credits">Credits</a> •
-  <a href="#license">License</a>
-</p>
+Audio-visual speech separation (AVSS) system based on an asymmetric **SepReformer-T** architecture with **Rotary Position Embeddings (RoPE)** in Efficient Global Attention (EGA) and sliding-window local attention, conditioned on **ResNet-18 + MS-TCN** lip embeddings via a zero-initialized projection across all `Speaker Split` levels.
 
-<p align="center">
-<a href="https://github.com/Blinorot/pytorch_project_template/generate">
-  <img src="https://img.shields.io/badge/use%20this-template-green?logo=github">
-</a>
-<a href="https://github.com/Blinorot/pytorch_project_template/blob/main/LICENSE">
-   <img src=https://img.shields.io/badge/license-MIT-blue.svg>
-</a>
-<a href="https://github.com/Blinorot/pytorch_project_template/blob/main/CITATION.cff">
-   <img src="https://img.shields.io/badge/cite-this%20repo-purple">
-</a>
-</p>
+## Results Summary
 
-## About
+### Training Progression
 
-This repository contains a template for [PyTorch](https://pytorch.org/)-based Deep Learning projects.
+| Stage / Configuration | Modality / Loss | Best Val SI-SNRi (dB) |
+| --- | --- | :---: |
+| `sepreformer_audio_nodm` (40 ep) | Audio / PIT | 7.82 |
+| `sepreformer_audio_nodm_cont_lr1e3` (+40 ep) | Audio / PIT | 11.38 |
+| `sepreformer_av_lr1e3` (+45 ep) | Audio-Visual / non-PIT | 13.58 |
+| **`sepreformer_av_cont_lr25e5` (+20 ep)** | **Audio-Visual / non-PIT** | **14.01** |
 
-The template utilizes different python-dev techniques to improve code readability. Configuration methods enhance reproducibility and experiments control.
+### Final Model Evaluation (Full Validation Split)
 
-The repository is released as a part of the [HSE DLA course](https://github.com/markovka17/dla), however, can easily be adopted for any DL-task.
+| Model | SI-SNRi (dB) ↑ | SDRi (dB) ↑ | PESQ ↑ | STOI ↑ |
+| --- | :---: | :---: | :---: | :---: |
+| **AV-SepReformer (`sepreformer_av_cont_lr25e5`)** | **14.13** | **14.50** | **2.41** | **0.925** |
 
-This template is the official recommended template for the [EPFL CS-433 ML Course](https://www.epfl.ch/labs/mlo/machine-learning-cs-433/).
-
-**New:** we added a [HF Main](https://github.com/Blinorot/pytorch_project_template/tree/hf_main) variant of the template with [HuggingFace](https://huggingface.co/) Integration for multi-GPU and multi-node training, automatic mixed precision, gradient accumulation, and seamless HuggingFace Ecosystem Compatibility.
-
-> 📖 **If you use this template in your work, please cite this repository or include a reference. Attribution supports the project and encourages continued development.**
-
-## Tutorials
-
-This template utilizes experiment tracking techniques, such as [WandB](https://docs.wandb.ai/) and [Comet ML](https://www.comet.com/docs/v2/), and [Hydra](https://hydra.cc/docs/intro/) for the configuration. It also automatically reformats code and conducts several checks via [pre-commit](https://pre-commit.com/). If you are not familiar with these tools, we advise you to look at the tutorials below:
-
-- [Python Dev Tips](https://github.com/ebezzam/python-dev-tips): information about [Git](https://git-scm.com/doc), [pre-commit](https://pre-commit.com/), [Hydra](https://hydra.cc/docs/intro/), and other stuff for better Python code development. The YouTube recording of the workshop is available [here](https://youtu.be/okxaTuBdDuY).
-
-- [Seminar on R&D Coding 2025](https://youtu.be/PE1zaW5it_A): Seminar from the [LauzHack Deep Learning Bootcamp](https://github.com/LauzHack/deep-learning-bootcamp/) with discussion on logging, project-based coding, configuration, and reproducibility. The materials can be found [here](https://github.com/LauzHack/deep-learning-bootcamp/tree/summer25/day05).
-
-- [Seminar on R&D Coding 2024](https://youtu.be/sEA-Js5ZHxU): Seminar from the [LauzHack Deep Learning Bootcamp](https://github.com/LauzHack/deep-learning-bootcamp/) with template discussion and reasoning. It also explains how to work with [WandB](https://docs.wandb.ai/). The seminar materials can be found [here](https://github.com/LauzHack/deep-learning-bootcamp/blob/main/day03/Seminar_WandB_and_Coding.ipynb).
-
-- [HSE DLA Course Introduction Week](https://github.com/markovka17/dla/tree/2024/week01): combines the two seminars above into one with some updates, including an extra example for [Comet ML](https://www.comet.com/docs/v2/).
-
-- [PyTorch Basics](https://github.com/markovka17/dla/tree/2024/week01/intro_to_pytorch): several notebooks with [PyTorch](https://pytorch.org/docs/stable/index.html) basics and corresponding seminar recordings from the [LauzHack Deep Learning Bootcamp](https://github.com/LauzHack/deep-learning-bootcamp/).
-
-To start working with a template, just click on the `use this template` button.
-
-<a href="https://github.com/Blinorot/pytorch_project_template/generate">
-  <img src="https://img.shields.io/badge/use%20this-template-green?logo=github">
-</a>
-
-You can choose any of the branches as a starting point. [Set your choice as the default branch](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-branches-in-your-repository/changing-the-default-branch) in the repository settings. You can also [delete unnecessary branches](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-and-deleting-branches-within-your-repository).
-
-## Examples
-
-> [!IMPORTANT]
-> The main branch leaves some of the code parts empty or fills them with dummy examples, showing just the base structure. The final users can add code required for their own tasks.
-
-You can find examples of this template completed for different tasks in other branches:
-
-- [HF Main](https://github.com/Blinorot/pytorch_project_template/tree/hf_main): the variant of the `main` branch with [HuggingFace](https://huggingface.co/) Integration. Supports multi-GPU and multi-node training, automatic mixed precision, gradient accumulation, and seamless HuggingFace Ecosystem Compatibility.
-
-- [Image classification](https://github.com/Blinorot/pytorch_project_template/tree/example/image-classification): simple classification problem on [MNIST](https://yann.lecun.com/exdb/mnist/) and [CIFAR-10](https://www.cs.toronto.edu/~kriz/cifar.html) datasets.
-
-- [ASR](https://github.com/Blinorot/pytorch_project_template/tree/example/asr): template for the automatic speech recognition (ASR) task. Some of the parts (for example, `collate_fn` and beam search for `text_encoder`) are missing for studying purposes of [HSE DLA course](https://github.com/markovka17/dla).
+Model size: **3.32M** inference-active parameters (**3.44M** total including training-only auxiliary heads; **32,832** parameters in `video_proj`).
 
 ## Installation
 
-Installation may depend on your task. The general steps are the following:
-
-0. (Optional) Create and activate new environment using [`conda`](https://conda.io/projects/conda/en/latest/user-guide/getting-started.html) or `venv` ([`+pyenv`](https://github.com/pyenv/pyenv)).
-
-   a. `conda` version:
-
-   ```bash
-   # create env
-   conda create -n project_env python=PYTHON_VERSION
-
-   # activate env
-   conda activate project_env
-   ```
-
-   b. `venv` (`+pyenv`) version:
-
-   ```bash
-   # create env
-   ~/.pyenv/versions/PYTHON_VERSION/bin/python3 -m venv project_env
-
-   # alternatively, using default python version
-   python3 -m venv project_env
-
-   # activate env
-   source project_env/bin/activate
-   ```
-
-1. Install all required packages
-
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-2. Install `pre-commit`:
-   ```bash
-   pre-commit install
-   ```
-
-## How To Use
-
-To train a model, run the following command:
-
 ```bash
-python3 train.py -cn=CONFIG_NAME HYDRA_CONFIG_ARGUMENTS
+git clone https://github.com/YohanKIM-creator/AVSS.git
+cd AVSS
+git clone https://github.com/mpc001/Lipreading_using_Temporal_Convolutional_Networks.git ../lipreading
+pip install -r requirements.txt
 ```
 
-Where `CONFIG_NAME` is a config from `src/configs` and `HYDRA_CONFIG_ARGUMENTS` are optional arguments.
+## Download Checkpoints
 
-To run inference (evaluate the model or save predictions):
+Download the final AV-SepReformer checkpoint (`saved/final/model_best.pth`) and pretrained lip-reading weights (`saved/lipreading/lrw_resnet18_mstcn_video.pth`):
 
 ```bash
-python3 inference.py HYDRA_CONFIG_ARGUMENTS
+python3 scripts/download_checkpoint.py
 ```
 
-## Useful Links:
+## Dataset & Lip Embeddings
 
-You may find the following links useful:
+### Dataset Structure
 
-- [Report branch](https://github.com/Blinorot/pytorch_project_template/tree/report): Guidelines for writing a scientific report/paper (with an emphasis on DL projects).
+For training/validation (`AudioDataset` in [src/datasets/custom_dataset.py](src/datasets/custom_dataset.py)):
 
-- [CLAIRE Template](https://github.com/CLAIRE-Labo/python-ml-research-template): additional template by [EPFL CLAIRE Laboratory](https://www.epfl.ch/labs/claire/) that can be combined with ours to enhance experiments reproducibility via [Docker](https://www.docker.com/).
+```text
+dla_dataset_audio/
+├── train/{mix,s1,s2}/
+├── val/{mix,s1,s2}/
+└── test/mix/
+```
 
-- [Mamba](https://github.com/mamba-org/mamba) and [Poetry](https://python-poetry.org/): alternatives to [Conda](https://conda.io/projects/conda/en/latest/user-guide/getting-started.html) and [pip](https://pip.pypa.io/en/stable/installation/) package managers given above.
+with speaker `.npz` mouth crops in `mouths/` and extracted `.npy` embeddings in `lip_emb/`.
 
-- [Awesome README](https://github.com/matiassingers/awesome-readme): a list of awesome README files for inspiration. Check the basics [here](https://github.com/PurpleBooth/a-good-readme-template).
+For custom inference (`CustomDirDataset` in [src/configs/datasets/custom_dir.yaml](src/configs/datasets/custom_dir.yaml)):
 
-## Credits
+```text
+CustomDir/
+├── audio/
+│   ├── mix/          # FirstSpeakerID_SecondSpeakerID.wav
+│   ├── s1/           # optional ground truth
+│   └── s2/           # optional ground truth
+└── mouths/
+    └── SpeakerID.npz
+```
 
-This repository is based on a heavily modified fork of [pytorch-template](https://github.com/victoresque/pytorch-template) and [asr_project_template](https://github.com/WrathOfGrapes/asr_project_template) repositories.
+### Extract Lip Embeddings (for Training)
 
-## License
+```bash
+python3 scripts/extract_lip_embeddings.py \
+  --lip-repo ../lipreading \
+  --weights saved/lipreading/lrw_resnet18_mstcn_video.pth \
+  --mouths-dir ./mouths \
+  --out-dir ./lip_emb \
+  --batch-size 32
+```
 
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](/LICENSE)
+## Inference & Metrics
+
+Run inference on any directory matching `CustomDirDataset` (lip embeddings are extracted automatically into `${inferencer.save_path}/lip_emb`):
+
+```bash
+python3 inference.py \
+  datasets.test.data_dir=/path/to/CustomDir \
+  inferencer.lip_repo=../lipreading \
+  inferencer.weights=saved/lipreading/lrw_resnet18_mstcn_video.pth \
+  inferencer.from_pretrained=saved/final/model_best.pth \
+  inferencer.save_path=saved/inference
+```
+
+Separated `.wav` files are saved to `saved/inference/s1/<mix_name>.wav` and `saved/inference/s2/<mix_name>.wav`.
+
+To compute **SI-SNRi**, **SDRi**, **PESQ**, and **STOI** against ground-truth `audio/{s1,s2}`:
+
+```bash
+python3 -m scripts.calc_metrics \
+  --pred-dir saved/inference \
+  --data-dir /path/to/CustomDir
+```
+
+### Google Colab Notebook
+
+Use [notebooks/demo_colab.ipynb](notebooks/demo_colab.ipynb) to run the full inference and evaluation pipeline in Google Colab (clone the repository, install dependencies, download checkpoints, provide `DATA_DIR` via `.zip` upload or Google Drive, run `inference.py`, compute metrics with `scripts.calc_metrics`, and listen to separated audio).
+
+## Training & Reproducibility
+
+Training logs and audio samples are logged to the [Comet ML project](https://www.comet.com/143xd/avss/view/new/panels). Override `datasets.train.audio_dir`, `datasets.val.audio_dir`, `mouths_dir`, and `emb_dir` via Hydra if your data is stored outside the default paths in [src/configs/datasets/datasets.yaml](src/configs/datasets/datasets.yaml).
+
+1. **Audio-only pretraining (40 epochs, PIT):**
+
+```bash
+python3 train.py -cn=baseline \
+  model.use_video=False \
+  loss_function.pit=True \
+  metrics=separation \
+  datasets.train.dynamic_mixing_prob=0.0 \
+  dataloader.batch_size=4 \
+  trainer.n_epochs=40 \
+  optimizer.lr=3e-4 \
+  writer.run_name=sepreformer_audio_nodm
+```
+
+2. **Audio-only continuation (+40 epochs, LR = 1e-3):**
+
+```bash
+python3 train.py -cn=baseline \
+  model.use_video=False \
+  loss_function.pit=True \
+  metrics=separation \
+  datasets.train.dynamic_mixing_prob=0.0 \
+  dataloader.batch_size=4 \
+  trainer.n_epochs=40 \
+  optimizer.lr=1e-3 \
+  trainer.from_pretrained=saved/sepreformer_audio_nodm/model_best.pth \
+  writer.run_name=sepreformer_audio_nodm_cont_lr1e3
+```
+
+3. **Audio-visual fine-tuning (45 epochs at LR = 1e-3, then 20 epochs at LR = 2.5e-4, non-PIT):**
+
+```bash
+python3 train.py -cn=baseline \
+  model.use_video=True \
+  loss_function.pit=False \
+  metrics=separation_av \
+  datasets.train.dynamic_mixing_prob=0.0 \
+  dataloader.batch_size=4 \
+  trainer.n_epochs=45 \
+  optimizer.lr=1e-3 \
+  trainer.from_pretrained=saved/sepreformer_audio_nodm_cont_lr1e3/model_best.pth \
+  writer.run_name=sepreformer_av_lr1e3
+
+python3 train.py -cn=baseline \
+  model.use_video=True \
+  loss_function.pit=False \
+  metrics=separation_av \
+  datasets.train.dynamic_mixing_prob=0.0 \
+  dataloader.batch_size=4 \
+  trainer.n_epochs=20 \
+  optimizer.lr=2.5e-4 \
+  trainer.from_pretrained=saved/sepreformer_av_lr1e3/model_best.pth \
+  writer.run_name=sepreformer_av_cont_lr25e5
+```
+
+## Generative AI Disclosure
+
+- **Model:** Codex (`gpt sol 6.1`)
+- **Tasks:** Exploratory analysis of the raw dataset archive (`dla_dataset.zip`) — counting files per split, checking WAV sizes/format uniformity, verifying linear mixture composition (`mix ≈ s1 + s2` residuals and fitted coefficients), measuring source RMS ratios, mixture SI-SNR, and clipping, inspecting `.npz` mouth-crop shapes/dtypes, saving summary statistics to `dla_dataset_preview/inspection.json`, and extracting sample `mix`/`s1`/`s2` `.wav` previews into `dla_dataset_preview/`.
+- **Prompt (reconstructed):** *"Просмотри архив с датасетом, создай файл `inspection.json` со всевозможными статистиками о датасете (количество файлов по сплитам, метаданные и размеры аудио, проверка `mix = s1 + s2` через линейную регрессию и остаток, разброс RMS источников, SI-SNR, клиппинг, формы и типы `.npz` с губами), а также собери несколько аудио- и видео-сэмплов в `dla_dataset_preview`, чтобы я мог лучше понять, что там лежит."*
+- **Code Generation:** No generative AI was used to write the model, dataset, training, or inference source code in `src/` and `scripts/` (the Colab inference notebook `notebooks/demo_colab.ipynb` is permitted by course rules).
