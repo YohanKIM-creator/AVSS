@@ -26,4 +26,5 @@ def collate_fn(dataset_items: list[dict]):
     result_batch["s2_mouth"] = [elem["s2_mouth"] for elem in dataset_items]
     result_batch["sample_rate"] = dataset_items[0]["sample_rate"]
     result_batch["video"] = torch.stack([torch.stack([elem["s1_video"], elem["s2_video"]]) for elem in dataset_items])
+    result_batch["names"] = [elem["name"] for elem in dataset_items]
     return result_batch

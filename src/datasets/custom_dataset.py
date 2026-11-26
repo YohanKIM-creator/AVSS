@@ -70,7 +70,8 @@ class AudioDataset(Dataset):
             wf_1 /= mx
             wf_2 /= mx
 
-        return {"mix": mix, "s1": wf_1, "s2": wf_2, "sample_rate": sr, "s1_mouth": mouth1, "s2_mouth": mouth2, "s1_video": s1_video, "s2_video": s2_video}
+        return {"mix": mix, "s1": wf_1, "s2": wf_2, "sample_rate": sr, "s1_mouth": mouth1, "s2_mouth": mouth2, "s1_video": s1_video, "s2_video": s2_video, 
+                "name": f"{mouth1.stem}_{mouth2.stem}"}
 
     def _load_audio(self, path):
         waveform, sample_rate = sf.read(path, dtype="float32")
@@ -98,13 +99,13 @@ class AudioDataset(Dataset):
             target_wf_1, _ = self._load_audio(item["s1"])
             target_wf_2, _ = self._load_audio(item["s2"])
 
-            sample = {"mix": waveform, "s1": target_wf_1, "s2": target_wf_2, "sample_rate": sample_rate, "s1_mouth": item["s1_mouth"], "s2_mouth": item["s2_mouth"], "s1_video": video1, "s2_video": video2}
+            sample = {"mix": waveform, "s1": target_wf_1, "s2": target_wf_2, "sample_rate": sample_rate, "s1_mouth": item["s1_mouth"], "s2_mouth": item["s2_mouth"], "s1_video": video1, "s2_video": video2, "name": item["mix"].stem}
             if self.mode == "train" and self.augmentation is not None:
                 sample = self.augmentation(sample)
 
             return sample
 
-        return {"mix": waveform, "sample_rate": sample_rate, "s1_mouth": item["s1_mouth"], "s2_mouth": item["s2_mouth"], "s1_video": video1, "s2_video": video2}
+        return {"mix": waveform, "sample_rate": sample_rate, "s1_mouth": item["s1_mouth"], "s2_mouth": item["s2_mouth"], "s1_video": video1, "s2_video": video2, "name": item["mix"].stem}
 
     def __len__(self):
         return len(self.data)
@@ -119,3 +120,13 @@ class VideoDataset(Dataset):
     
     def __len__(self):
         pass
+
+
+class CustomDirDataset(AudioDataset):
+    def __init__(self, data_dir, emb_dir=None, **kwargs):
+        mouths_dir = Path(data_dir) / "mouths"
+        audio_dir = Path(data_dir) / "audio"
+        if emb_dir is None:
+            emb_dir = Path(data_dir) / "lip_emb"
+        mode = "validation" if (audio_dir / "s1").exists() else "test"
+        super().__init__(audio_dir=audio_dir, mouths_dir=mouths_dir, emb_dir=emb_dir, mode=mode, **kwargs)
